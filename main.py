@@ -36,7 +36,7 @@ class Customer(ndb.Model):
     first_name_c = ndb.StringProperty(required=True)
     last_name_c = ndb.StringProperty(required=True)
     address_c= ndb.StringProperty(required=True)
-    phone_c=ndb.FloatProperty(required=True)
+    phone_c=ndb.StringProperty(required=True)
     start_date_c=ndb.StringProperty(required=True)
 
 # class Sales(ndb.Model):
@@ -74,6 +74,16 @@ class DisplaySalespersonPage(webapp2.RequestHandler):
         displaySalesperson_template = the_jinja_env.get_template('html/salespersonDisplay.html')
         salesperson_all=Salesperson.query().order(Salesperson.first_name_s).fetch()
         self.response.write(displaySalesperson_template.render({'salesperson_info': salesperson_all,
+                                                    }))  # the response
+class AddCustomerPage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        addCustomer_template = the_jinja_env.get_template('html/addCustomer.html')
+        self.response.write(addCustomer_template.render())  # the response
+class DisplayCustomerPage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        displayCustomer_template = the_jinja_env.get_template('html/customerDisplay.html')
+        customer_all=Customer.query().order(Customer.first_name_c).fetch()
+        self.response.write(displayCustomer_template.render({'customer_info':  customer_all,
                                                     }))  # the response
 class ShowProduct(webapp2.RequestHandler):
     def post(self):
@@ -129,6 +139,28 @@ class ShowSalesperson(webapp2.RequestHandler):
         # pass that dictionary to the Jinja2 `.render()` method
         self.response.write(results_salesperson_template.render(the_variable_salesperson_dict))
 
+class ShowCustomer(webapp2.RequestHandler):
+    def post(self):
+        results_customer_template = the_jinja_env.get_template('html/addCustomerConfirm.html')
+        # Access the user data via the form's input elements' names.
+        customer_first_name = self.request.get('firstNameGivenC')
+        customer_last_name = self.request.get('lastNameGivenC')
+        customer_address=self.request.get('addressGivenC')
+        customer_phone=self.request.get('phoneGivenC')
+        customer_start_date=self.request.get('StartDateGivenC')
+        # Organize that user data into a dictionary.
+        the_variable_customer_dict = {
+            "c_first_name_from_form": customer_first_name,
+            "c_last_name_from_form": customer_last_name,
+            "c_address_from_form": customer_address,
+            "c_phone_from_form":customer_phone,
+            "c_start_date_from_form":customer_start_date,
+        }
+        new_customer_template=Customer(first_name_c=customer_first_name, last_name_c=customer_last_name, address_c=customer_address, phone_c=customer_phone, start_date_c=customer_start_date)
+        new_customer_template.put()
+        print(new_customer_template)
+        # pass that dictionary to the Jinja2 `.render()` method
+        self.response.write(results_customer_template.render(the_variable_customer_dict))
 # the app configuration section
 app = webapp2.WSGIApplication([
     ('/', HomePage), #this maps the root url to the Main Page Handler
@@ -138,4 +170,7 @@ app = webapp2.WSGIApplication([
     ('/displaySalesperson', DisplaySalespersonPage),
     ('/addSalesperson', AddSalespersonPage),
     ('/addSalespersonConfirm', ShowSalesperson),
+    ('/displayCustomer', DisplayCustomerPage),
+    ('/addCustomer', AddCustomerPage),
+    ('/addCustomerConfirm', ShowCustomer),
 ], debug=True)

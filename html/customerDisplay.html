@@ -1,20 +1,18 @@
 <html>
   <head>
-    <title>Hello, world!</title>
+    <title>Hello, Customer!</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   </head>
   <body>
-    {% for each_product in product_info %}
+    {% for each_customer in customer_info %}
         <div class="product">
-          <h4 class="nameProduct">{{each_product.name_of_product}}</h4>
-          <p class="manufacturerProduct">Manufacturer: {{each_product.manufacturer_of_product}}</p>
-          <p class="styleProduct">Style: {{each_product.style_of_product}}</p>
-          <p class="pPriceProduct">Purchase Price: {{each_product.purchase_price_of_product}}</p>
-          <p class="sPriceProduct">Sale Price: {{each_product.sale_price_of_product}}</p>
-          <p class="amountProduct">Current Quantity: {{each_product.amount_on_hand_of_product}}</p>
-          <p class="commissionProduct">Commission Percent: {{each_product.commision_of_product}}</p>
+          <h4 class="nameProduct">First Name: {{each_customer.first_name_c}}</h4>
+          <h4 class="manufacturerProduct">Last Name: {{each_customer.last_name_c}}</h4>
+          <p class="styleProduct">Address: {{each_customer.address_c}}</p>
+          <p class="pPriceProduct">Phone Number: {{each_customer.phone_c}}</p>
+          <p class="sPriceProduct">Start Date: {{each_customer.start_date_c}}</p>
         </div>
       {% endfor %}
-      <h2><a href="/addProduct">Add Product</a></h2>
+      <h2><a href="/addCustomer">Add Customer</a></h2>
   </body>
 </html>
