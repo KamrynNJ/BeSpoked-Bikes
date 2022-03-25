@@ -13,6 +13,10 @@
           <p class="sPriceProduct">Sale Price: {{each_product.sale_price_of_product}}</p>
           <p class="amountProduct">Current Quantity: {{each_product.amount_on_hand_of_product}}</p>
           <p class="commissionProduct">Commission Percent: {{each_product.commision_of_product}}</p>
+          <form  action="/editProduct" method=post class=edit-movie>
+            <input type=hidden id="hiddenNovelValueForEdit" name="hiddenProductValueForEdit"value="{{each_product.name_of_product}}" />
+            <input type=submit value="Edit"/>
+          </form>
         </div>
       {% endfor %}
       <h2><a href="/addProduct">Add Product</a></h2>

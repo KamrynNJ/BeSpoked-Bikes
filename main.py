@@ -161,6 +161,60 @@ class ShowCustomer(webapp2.RequestHandler):
         print(new_customer_template)
         # pass that dictionary to the Jinja2 `.render()` method
         self.response.write(results_customer_template.render(the_variable_customer_dict))
+
+class EditProduct(webapp2.RequestHandler):
+    def post(self):
+        edit_product_template = the_jinja_env.get_template('html/editProduct.html')
+        product_for_editing = self.request.get('hiddenProductValueForEdit')
+        The_product_entitity_chosen= Products.query().filter(Products.name_of_product == product_for_editing).get()
+        The_product_entitity_chosen_name=The_product_entitity_chosen.name_of_product
+        The_product_entitity_chosen_manufacturer=The_product_entitity_chosen.manufacturer_of_product
+        The_product_entitity_chosen_style=The_product_entitity_chosen.style_of_product
+        The_product_entitity_chosen_purchase_price=The_product_entitity_chosen.purchase_price_of_product
+        The_product_entitity_chosen_sale_price=The_product_entitity_chosen.sale_price_of_product
+        The_product_entitity_chosen_amount=The_product_entitity_chosen.amount_on_hand_of_product
+        The_product_entitity_chosen_commission=The_product_entitity_chosen.commision_of_product
+        the_variables_for_edit = {
+            "value_from_form_for_edit": The_product_entitity_chosen,
+        }
+
+        self.response.write(edit_product_template.render(the_variables_for_edit))
+class EditProductConfirm(webapp2.RequestHandler):
+    def post(self):
+        editProductConfirm_template = the_jinja_env.get_template('html/editProductConfirm.html')
+        name_for_it=self.request.get('hiddenProductDateValueForEditing')
+        name_editing = self.request.get('nameProductEditing')
+        manufacturer_editing=self.request.get('manufacturerProductEditing')
+        style_editing=self.request.get('styleEditing')
+        purchase_price_editing=self.request.get('purchasePriceProductEditing')
+        sale_price_editing=self.request.get('salePriceProductEditing')
+        amount_editing=self.request.get('amountEditing')
+        commission_editing=self.request.get('commissionEditing')
+
+        The_product_chosen= Products.query().filter(Products.name_of_product ==name_for_it).get()
+        The_product_chosen.name_of_product=name_editing
+        The_product_chosen.manufacturer_of_product=manufacturer_editing
+        The_product_chosen.style_of_product=style_editing
+        The_product_chosen.purchase_price_of_product=purchase_price_editing
+        The_product_chosen.sale_price_of_product=sale_price_editing
+        The_product_chosen.amount_on_hand_of_product=amount_editing
+        The_product_chosen.commision_of_product=commission_editing
+        The_product_chosen.put()
+        print("This is the webtoon")
+        print(name_for_it)
+
+        the_variable_for_edit = {
+            "editing_name": name_editing,
+            "editing_manufacturer": manufacturer_editing,
+            "editing_style": style_editing,
+            "editing_purchase_price": purchase_price_editing,
+            "editing_sale_price": sale_price_editing,
+            "editing_amount": amount_editing,
+            "editing_commission": commission_editing,
+        }
+
+
+        self.response.write(editProductConfirm_template.render(the_variable_for_edit))
 # the app configuration section
 app = webapp2.WSGIApplication([
     ('/', HomePage), #this maps the root url to the Main Page Handler
@@ -173,4 +227,6 @@ app = webapp2.WSGIApplication([
     ('/displayCustomer', DisplayCustomerPage),
     ('/addCustomer', AddCustomerPage),
     ('/addCustomerConfirm', ShowCustomer),
+    ('/editProduct', EditProduct),
+    ('/editProductConfirm', EditProductConfirm),
 ], debug=True)
