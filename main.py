@@ -39,12 +39,12 @@ class Customer(ndb.Model):
     phone_c=ndb.StringProperty(required=True)
     start_date_c=ndb.StringProperty(required=True)
 
-# class Sales(ndb.Model):
-#   product_sales = ndb.StringProperty(required=True)
-#   salesperson_sales = ndb.StringProperty(required=True)
-#   customer_sales= ndb.StringProperty(required=True)
-#   sale_date=ndb.FloatProperty(required=True)
-#
+class Sales(ndb.Model):
+  product_sales = ndb.KeyProperty(Products, repeated=True)
+  salesperson_sales = ndb.KeyProperty(Salesperson, repeated=True)
+  customer_sales= ndb.KeyProperty(Customer, repeated=True)
+  sale_date=ndb.StringProperty(required=True)
+
 # class Discount(ndb.Model):
 #   product_discount = ndb.StringProperty(required=True)
 #   start_discount = ndb.StringProperty(required=True)
@@ -215,6 +215,60 @@ class EditProductConfirm(webapp2.RequestHandler):
 
 
         self.response.write(editProductConfirm_template.render(the_variable_for_edit))
+
+class EditSaleperson(webapp2.RequestHandler):
+    def post(self):
+        edit_saleperson_template = the_jinja_env.get_template('html/editSaleperson.html')
+        saleperson_for_editing = self.request.get('hiddenSalepersonValueForEdit')
+        The_saleperson_entitity_chosen= Salesperson.query().filter(Salesperson.phone_s == saleperson_for_editing).get()
+        The_saleperson_entitity_chosen_first_name=The_saleperson_entitity_chosen.first_name_s
+        The_saleperson_entitity_chosen_last_name=The_saleperson_entitity_chosen.last_name_s
+        The_saleperson_entitity_chosen_address=The_saleperson_entitity_chosen.address_s
+        The_saleperson_entitity_chosen_phone=The_saleperson_entitity_chosen.phone_s
+        The_saleperson_entitity_chosen_start_date=The_saleperson_entitity_chosen.start_date_s
+        The_saleperson_entitity_chosen_end_date=The_saleperson_entitity_chosen.end_date_s
+        The_saleperson_entitity_chosen_manager=The_saleperson_entitity_chosen.manager_s
+        the_variables_for_edit = {
+            "value_from_form_for_edit": The_saleperson_entitity_chosen,
+        }
+
+        self.response.write(edit_saleperson_template.render(the_variables_for_edit))
+class EditSalepersonConfirm(webapp2.RequestHandler):
+    def post(self):
+        editSalepersonConfirm_template = the_jinja_env.get_template('html/editSalepersonConfirm.html')
+        name_for_it=self.request.get('hiddenSalepersonDateValueForEditing')
+        first_name_editing = self.request.get('firstNameEditing')
+        last_name_editing=self.request.get('lastNameEditing')
+        address_editing=self.request.get('addressEditing')
+        phone_editing=self.request.get('phoneEditing')
+        start_date_editing=self.request.get('startDateEditing')
+        end_date_editing=self.request.get('endDateEditing')
+        manager_editing=self.request.get('managerEditing')
+
+        The_product_chosen= Salesperson.query().filter(Salesperson.phone_s ==name_for_it).get()
+        The_product_chosen.first_name_s=first_name_editing
+        The_product_chosen.last_name_s=last_name_editing
+        The_product_chosen.address_s=address_editing
+        The_product_chosen.phone_s=phone_editing
+        The_product_chosen.start_date_s=start_date_editing
+        The_product_chosen.end_date_s=end_date_editing
+        The_product_chosen.manager_s=manager_editing
+        The_product_chosen.put()
+        print("This is the webtoon")
+        print(name_for_it)
+
+        the_variable_for_edit = {
+            "editing_first_name": first_name_editing,
+            "editing_last_name": last_name_editing,
+            "editing_address": address_editing,
+            "editing_phone": phone_editing,
+            "editing_start_date": start_date_editing,
+            "editing_end_date": end_date_editing,
+            "editing_manager": manager_editing,
+        }
+
+
+        self.response.write(editSalepersonConfirm_template.render(the_variable_for_edit))
 # the app configuration section
 app = webapp2.WSGIApplication([
     ('/', HomePage), #this maps the root url to the Main Page Handler
@@ -229,4 +283,6 @@ app = webapp2.WSGIApplication([
     ('/addCustomerConfirm', ShowCustomer),
     ('/editProduct', EditProduct),
     ('/editProductConfirm', EditProductConfirm),
+    ('/editSaleperson', EditSaleperson),
+    ('/editSalepersonConfirm', EditSalepersonConfirm),
 ], debug=True)

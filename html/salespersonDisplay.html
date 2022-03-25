@@ -13,6 +13,10 @@
           <p class="sPriceProduct">Start Date: {{each_saleperson.start_date_s}}</p>
           <p class="amountProduct">End Date: {{each_saleperson.end_date_s}}</p>
           <p class="commissionProduct">Manager: {{each_saleperson.manager_s}}</p>
+          <form  action="/editSaleperson" method=post class=edit-movie>
+            <input type=hidden id="hiddenSalepersonValueForEdit" name="hiddenSalepersonValueForEdit"value="{{each_saleperson.phone_s}}" />
+            <input type=submit value="Edit"/>
+          </form>
         </div>
       {% endfor %}
       <h2><a href="/addSalesperson">Add Salesperson</a></h2>

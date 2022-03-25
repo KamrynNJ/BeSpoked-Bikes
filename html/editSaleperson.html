@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="style/NovelCSS.css">
+  </head>
+  <body>
+    <h2>Please update the information</h2>
+    <div class="editForm" id="editForm">
+      <form  action="/editSalepersonConfirm" method="post" class="editFormDiv">
+        <label for="first_name"> New First Name:
+          </label><br>
+          <input type="text" id="firstNameGivenEdit" name="firstNameEditing" value="{{value_from_form_for_edit.first_name_s}}"><br>
+        <label for="last_name"> New Last Name:
+          </label><br>
+          <input type="text" id="lastNameGivenEdit" name="lastNameEditing" value={{value_from_form_for_edit.last_name_s}}><br>
+        <label for="address"> New Address:
+          </label><br>
+          <input type="text" id="addressGivenEdit" name="addressEditing" value="{{value_from_form_for_edit.address_s}}"><br>
+        <label for="phone"> New Phone Number:
+          </label><br>
+          <input type="number" id="phoneGivenEdit" name="phoneEditing" value="{{value_from_form_for_edit.phone_s}}"><br>
+        <label for="start_date"> New Start Date:
+          </label><br>
+          <input type="text" id="startDateGivenEdit" name="startDateEditing" value="{{value_from_form_for_edit.start_date_s}}"><br>
+        <label for="end_date"> New End Date:
+          </label><br>
+          <input type="text" id="endDateGivenEdit" name="endDateEditing" value="{{value_from_form_for_edit.end_date_s}}"><br>
+        <label for="manager"> New Manager:
+          </label><br>
+          <input type="text" id="managerGivenEdit" name="managerEditing" value="{{value_from_form_for_edit.manager_s}}"><br>
+
+          <input type=hidden id="hiddenNovelDateValueForEditing" name="hiddenSalepersonDateValueForEditing"value="{{value_from_form_for_edit.phone_s}}" /><br>
+          <input type="submit" value="Change" id="editbutton">
+
+    </form>
+  </div>
+  </body>
+</html>
