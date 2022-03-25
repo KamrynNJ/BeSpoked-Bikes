@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+  </head>
+  <body>
+    {% for each_product in product_info %}
+        <div class="product">
+          <h4 class="nameProduct">{{each_product.name_of_product}}</h4>
+          <p class="manufacturerProduct">Manufacturer: {{each_product.manufacturer_of_product}}</p>
+          <p class="styleProduct">Style: {{each_product.style_of_product}}</p>
+          <p class="pPriceProduct">Purchase Price: {{each_product.purchase_price_of_product}}</p>
+          <p class="sPriceProduct">Sale Price: {{each_product.sale_price_of_product}}</p>
+          <p class="amountProduct">Current Quantity: {{each_product.amount_on_hand_of_product}}</p>
+          <p class="commissionProduct">Commission Percent: {{each_product.commision_of_product}}</p>
+            <!-- <div class="delete_edit_button">
+
+                <form  action="/deleteConfirm" method=post class=delete-movie>
+                  <input type=hidden id="hiddenValue" name="hiddenValue"value="{{each_blog.title_class}}" />
+                  <input type=submit value="Delete"/>
+                </form>
+                <form  action="/editPage" method=post class=edit-movie>
+                  <input type=hidden id="hiddenValueForEdit" name="hiddenValueForEdit"value="{{each_blog.title_class}}" />
+                  <input type=submit value="Edit"/>
+                </form>
+              </div> -->
+        </div>
+      {% endfor %}
+      <h2><a href="/addProduct">Add Product</a></h2>
+  </body>
+</html>
