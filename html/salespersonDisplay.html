@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+  </head>
+  <body>
+    {% for each_saleperson in salesperson_info %}
+        <div class="product">
+          <h4 class="nameProduct">First Name: {{each_saleperson.first_name_s}}</h4>
+          <h4 class="manufacturerProduct">Last Name: {{each_saleperson.last_name_s}}</h4>
+          <p class="styleProduct">Address: {{each_saleperson.address_s}}</p>
+          <p class="pPriceProduct">Phone Number: {{each_saleperson.phone_s}}</p>
+          <p class="sPriceProduct">Start Date: {{each_saleperson.start_date_s}}</p>
+          <p class="amountProduct">End Date: {{each_saleperson.end_date_s}}</p>
+          <p class="commissionProduct">Manager: {{each_saleperson.manager_s}}</p>
+        </div>
+      {% endfor %}
+      <h2><a href="/addSalesperson">Add Salesperson</a></h2>
+  </body>
+</html>
