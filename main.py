@@ -72,7 +72,7 @@ class AddSalespersonPage(webapp2.RequestHandler):
 class DisplaySalespersonPage(webapp2.RequestHandler):
     def get(self):  # for a get request
         displaySalesperson_template = the_jinja_env.get_template('html/salespersonDisplay.html')
-        salesperson_all=Salesperson.query().order(Salesperson.first_name_s).fetch()
+        salesperson_all=Salesperson.query().order(Salesperson.last_name_s).fetch()
         self.response.write(displaySalesperson_template.render({'salesperson_info': salesperson_all,
                                                     }))  # the response
 class AddCustomerPage(webapp2.RequestHandler):

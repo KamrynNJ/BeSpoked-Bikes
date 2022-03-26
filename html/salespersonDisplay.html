@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Hello, world!</title>
-    <link rel="stylesheet" type="text/css" href="style/homePage.css">
+    <link rel="stylesheet" type="text/css" href="style/salepersonPage.css">
   </head>
   <body>
     <div class="header">
@@ -16,21 +16,36 @@
       <p><a href="/displayProduct" class="header_links">Products</a><p>
       <p><a href="/displayCustomer" class="header_links">Customers</a><p>
     </div>
-    {% for each_saleperson in salesperson_info %}
-        <div class="product">
-          <h4 class="nameProduct">First Name: {{each_saleperson.first_name_s}}</h4>
-          <h4 class="manufacturerProduct">Last Name: {{each_saleperson.last_name_s}}</h4>
-          <p class="styleProduct">Address: {{each_saleperson.address_s}}</p>
-          <p class="pPriceProduct">Phone Number: {{each_saleperson.phone_s}}</p>
-          <p class="sPriceProduct">Start Date: {{each_saleperson.start_date_s}}</p>
-          <p class="amountProduct">End Date: {{each_saleperson.end_date_s}}</p>
-          <p class="commissionProduct">Manager: {{each_saleperson.manager_s}}</p>
-          <form  action="/editSaleperson" method=post class=edit-movie>
-            <input type=hidden id="hiddenSalepersonValueForEdit" name="hiddenSalepersonValueForEdit"value="{{each_saleperson.phone_s}}" />
-            <input type=submit value="Edit"/>
-          </form>
-        </div>
-      {% endfor %}
+    <div class="salespeople">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Manager</th>
+          <th>Edit Information</th>
+        </tr>
+          {% for each_saleperson in salesperson_info %}
+          <tr>
+              <div class="saleperson">
+                  <td class="grid_item" id="nameSaleperson">{{each_saleperson.first_name_s}} {{each_saleperson.last_name_s}}</td>
+                  <td class="grid_item" id="addressSaleperson">{{each_saleperson.address_s}}</td>
+                  <td class="grid_item" id="phoneSaleperson">{{each_saleperson.phone_s}}</td>
+                  <td class="grid_item" id="startSaleperson">{{each_saleperson.start_date_s}}</td>
+                  <td class="grid_item" id="endSaleperson">{{each_saleperson.end_date_s}}</td>
+                  <td class="grid_item" id="managerSaleperson">{{each_saleperson.manager_s}}</td>
+                  <form  action="/editSaleperson" method=post class=edit-movie>
+                    <input type=hidden id="hiddenSalepersonValueForEdit" name="hiddenSalepersonValueForEdit"value="{{each_saleperson.phone_s}}" />
+                    <td><input type=submit class="grid_item" id="editButton" value="Edit"/></td>
+                  </form>
+              </div>
+            </tr>
+            {% endfor %}
+      </table>
+
+    </div>
       <h2><a href="/addSalesperson">Add Salesperson</a></h2>
   </body>
 </html>

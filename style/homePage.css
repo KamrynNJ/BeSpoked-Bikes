@@ -19,7 +19,12 @@
 }
 .text_links{
   color: black;
-  text-decoration: none;  
+  text-decoration: none;
+}
+.salespeople{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 #bikePic{
   width: 100px;
