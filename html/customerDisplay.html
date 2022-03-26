@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Hello, Customer!</title>
-    <link rel="stylesheet" type="text/css" href="style/homePage.css">
+    <link rel="stylesheet" type="text/css" href="style/customerPage.css">
   </head>
   <body>
     <div class="header">
@@ -16,15 +16,26 @@
       <p><a href="/displayProduct" class="header_links">Products</a><p>
       <p><a href="/displayCustomer" class="header_links">Customers</a><p>
     </div>
-    {% for each_customer in customer_info %}
-        <div class="product">
-          <h4 class="nameProduct">First Name: {{each_customer.first_name_c}}</h4>
-          <h4 class="manufacturerProduct">Last Name: {{each_customer.last_name_c}}</h4>
-          <p class="styleProduct">Address: {{each_customer.address_c}}</p>
-          <p class="pPriceProduct">Phone Number: {{each_customer.phone_c}}</p>
-          <p class="sPriceProduct">Start Date: {{each_customer.start_date_c}}</p>
-        </div>
-      {% endfor %}
+    <div class="customers">
+      <table>
+          <tr>
+            <th>Full Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Start Date</th>
+          </tr>
+          {% for each_customer in customer_info %}
+          <tr>
+              <div class="product">
+                <td class="nameProduct">{{each_customer.first_name_c}} {{each_customer.last_name_c}}</td>
+                <td class="styleProduct">{{each_customer.address_c}}</td>
+                <td class="pPriceProduct">{{each_customer.phone_c}}</td>
+                <td class="sPriceProduct">{{each_customer.start_date_c}}</td>
+              </div>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
       <h2><a href="/addCustomer">Add Customer</a></h2>
   </body>
 </html>

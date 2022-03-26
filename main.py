@@ -82,13 +82,13 @@ class AddCustomerPage(webapp2.RequestHandler):
 class DisplayCustomerPage(webapp2.RequestHandler):
     def get(self):  # for a get request
         displayCustomer_template = the_jinja_env.get_template('html/customerDisplay.html')
-        customer_all=Customer.query().order(Customer.first_name_c).fetch()
+        customer_all=Customer.query().order(Customer.last_name_c).fetch()
         self.response.write(displayCustomer_template.render({'customer_info':  customer_all,
                                                     }))  # the response
 class DisplaySalePage(webapp2.RequestHandler):
     def get(self):  # for a get request
         display_sale_template = the_jinja_env.get_template('html/saleDisplay.html')
-        sale_all=Sales.query().fetch()
+        sale_all=Sales.query().order(Sales.salesperson_sales.last_name_s).fetch()
         self.response.write(display_sale_template.render({'sale_info': sale_all,
                                                     }))  # the response
 class AddSalePage(webapp2.RequestHandler):

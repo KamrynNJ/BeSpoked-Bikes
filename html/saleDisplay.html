@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Hello, world!</title>
-    <link rel="stylesheet" type="text/css" href="style/homePage.css">
+    <link rel="stylesheet" type="text/css" href="style/salePage.css">
   </head>
   <body>
       <div class="header">
@@ -16,16 +16,30 @@
         <p><a href="/displayProduct" class="header_links">Products</a><p>
         <p><a href="/displayCustomer" class="header_links">Customers</a><p>
       </div>
+      <div class="sales">
+        <table>
+          <tr>
+            <th>Saleperson</th>
+            <th>Saleperson Commission</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Product Price</th>
+            <th>Start Date</th>
+          </tr>
       {% for each_sale in sale_info %}
+      <tr>
         <div class="sale">
-          <h4 class="nameProduct">Saleperson: {{each_sale.salesperson_sales.first_name_s}} {{each_sale.salesperson_sales.last_name_s}}</h4>
-          <p class="manufacturerProduct">Saleperson Commission: {{each_sale.product_sales.commision_of_product}}</p>
-          <p class="manufacturerProduct">Customer: {{each_sale.customer_sales.first_name_c}} {{each_sale.customer_sales.last_name_c}}</p>
-          <p class="styleProduct">Product: {{each_sale.product_sales.name_of_product}} by {{each_sale.product_sales.manufacturer_of_product}}</p>
-          <p class="styleProduct">Product Price: {{each_sale.product_sales.purchase_price_of_product}}</p>
-          <p class="sPriceProduct">Start Date: {{each_sale.date_sale}}</p>
+          <td class="nameProduct">{{each_sale.salesperson_sales.first_name_s}} {{each_sale.salesperson_sales.last_name_s}}</td>
+          <td class="manufacturerProduct">{{each_sale.product_sales.commision_of_product}}</td>
+          <td class="manufacturerProduct">{{each_sale.customer_sales.first_name_c}} {{each_sale.customer_sales.last_name_c}}</td>
+          <td class="styleProduct">{{each_sale.product_sales.name_of_product}} by {{each_sale.product_sales.manufacturer_of_product}}</td>
+          <td class="styleProduct">{{each_sale.product_sales.purchase_price_of_product}}</td>
+          <td class="sPriceProduct">{{each_sale.date_sale}}</td>
         </div>
+      </tr>
       {% endfor %}
+    </table>
+    </div>
       <h2><a href="/addSale">Add Sale</a></h2>
   </body>
 </html>
