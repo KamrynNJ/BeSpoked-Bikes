@@ -1,9 +1,21 @@
 <html>
   <head>
     <title>Hello, world!</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="style/homePage.css">
   </head>
   <body>
+    <div class="header">
+      <a href="/" class="header_links">
+        <div id="header_logo">
+          <img id="bikePic" src="style/bikePic.jpeg" alt="bike logo">
+          <h2>BeSpoked Bikes</h2>
+        </div>
+      </a>
+      <p><a href="/displaySale" class="header_links">Sales</a><p>
+      <p><a href="/displaySalesperson" class="header_links">Salespeople</a><p>
+      <p><a href="/displayProduct" class="header_links">Products</a><p>
+      <p><a href="/displayCustomer" class="header_links">Customers</a><p>
+    </div>
     {% for each_product in product_info %}
         <div class="product">
           <h4 class="nameProduct">{{each_product.name_of_product}}</h4>

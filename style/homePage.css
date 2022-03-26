@@ -1,0 +1,56 @@
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header_links{
+  color: black;
+  text-decoration: none;
+}
+.infomation{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.vertical_box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.text_links{
+  color: black;
+  text-decoration: none;  
+}
+#bikePic{
+  width: 100px;
+  height: 80px;
+  padding-right: 20px;
+}
+#header_logo{
+  display: flex;
+  flex-direction: row;
+}
+#sales_box{
+  border-style: solid;
+  border-radius: 20px;
+  width: 700px;
+  height: 725px;
+}
+#saleperson_box{
+  border-style: solid;
+  border-radius: 20px;
+  width: 700px;
+  height: 200px;
+}
+#product_box{
+  border-style: solid;
+  border-radius: 20px;
+  width: 700px;
+  height: 200px;
+}
+#customer_box{
+  border-style: solid;
+  border-radius: 20px;
+  width: 700px;
+  height: 200px;
+}
