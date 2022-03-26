@@ -38,24 +38,24 @@
 #sales_box{
   border-style: solid;
   border-radius: 20px;
-  width: 700px;
+  width: 45%;
   height: 725px;
 }
 #saleperson_box{
   border-style: solid;
   border-radius: 20px;
-  width: 700px;
+  width: 45vw;
   height: 200px;
 }
 #product_box{
   border-style: solid;
   border-radius: 20px;
-  width: 700px;
+  width: 45vw;
   height: 200px;
 }
 #customer_box{
   border-style: solid;
   border-radius: 20px;
-  width: 700px;
+  width: 45vw;
   height: 200px;
 }
