@@ -9,19 +9,19 @@
         <form  action="/addCustomerConfirm" method="post" class="formDiv">
           <label for="first_name" id="first_name"> First Name:
             </label><br>
-            <input type="text" id="firstNameGivenC" name="firstNameGivenC"><br>
+            <input type="text" id="firstNameGivenC" placeholder="John" name="firstNameGivenC"><br>
           <label for="last_name" id="last_name"> Last Name:
             </label><br>
-            <input type="text" id="lastNameGivenC" name="lastNameGivenC"><br>
+            <input type="text" id="lastNameGivenC" placeholder="Smith" name="lastNameGivenC"><br>
           <label for="address" id="address"> Address:
             </label><br>
-            <input type="text" id="addressGivenC" name="addressGivenC"><br>
+            <input type="text" id="addressGivenC" placeholder="123 Street St" name="addressGivenC"><br>
           <label for="phone" id="phone"> Phone:
             </label><br>
-            <input type="number" id="phoneGivenC" name="phoneGivenC"><br>
+            <input type="tel" id="phoneGivenC" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" name="phoneGivenC"><br>
           <label for="start_date" id="start_date"> Start Date:
             </label><br>
-            <input type="text" id="StartDateGivenC" name="StartDateGivenC"><br>
+            <input type="date" id="StartDateGivenC" min="1900-01-01" name="StartDateGivenC"><br>
             <input type="submit" id="submitAddForm" value="Add" id="addbutton">
 
       </form>
