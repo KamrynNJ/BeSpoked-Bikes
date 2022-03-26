@@ -40,10 +40,10 @@ class Customer(ndb.Model):
     start_date_c=ndb.StringProperty(required=True)
 
 class Sales(ndb.Model):
-  product_sales = ndb.KeyProperty(Products, repeated=True)
-  salesperson_sales = ndb.KeyProperty(Salesperson, repeated=True)
-  customer_sales= ndb.KeyProperty(Customer, repeated=True)
-  sale_date=ndb.StringProperty(required=True)
+  product_sales = ndb.StructuredProperty(Products, repeated=False)
+  salesperson_sales = ndb.StructuredProperty(Salesperson, repeated=False)
+  customer_sales= ndb.StructuredProperty(Customer, repeated=False)
+  date_sale=ndb.StringProperty(required=True)
 
 # class Discount(ndb.Model):
 #   product_discount = ndb.StringProperty(required=True)
@@ -85,6 +85,23 @@ class DisplayCustomerPage(webapp2.RequestHandler):
         customer_all=Customer.query().order(Customer.first_name_c).fetch()
         self.response.write(displayCustomer_template.render({'customer_info':  customer_all,
                                                     }))  # the response
+class DisplaySalePage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        display_sale_template = the_jinja_env.get_template('html/saleDisplay.html')
+        sale_all=Sales.query().fetch()
+        self.response.write(display_sale_template.render({'sale_info': sale_all,
+                                                    }))  # the response
+class AddSalePage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        add_Sale_template = the_jinja_env.get_template('html/addSale.html')
+        products_all=Products.query().order(Products.name_of_product).fetch()
+        customer_all=Customer.query().order(Customer.first_name_c).fetch()
+        salesperson_all=Salesperson.query().order(Salesperson.first_name_s).fetch()
+        self.response.write(add_Sale_template.render({'product_info': products_all,
+                                                            'customer_info': customer_all,
+                                                            'saleperson_info': salesperson_all,
+                                                    }))  # the response
+
 class ShowProduct(webapp2.RequestHandler):
     def post(self):
         results_product_template = the_jinja_env.get_template('html/addProductConfirm.html')
@@ -161,6 +178,31 @@ class ShowCustomer(webapp2.RequestHandler):
         print(new_customer_template)
         # pass that dictionary to the Jinja2 `.render()` method
         self.response.write(results_customer_template.render(the_variable_customer_dict))
+
+class ShowSale(webapp2.RequestHandler):
+    def post(self):
+        results_sale_template = the_jinja_env.get_template('html/addSaleConfirm.html')
+        # Access the user data via the form's input elements' names.
+        sale_saleperson_given = self.request.get('salesperson')
+        sale_customer_given = self.request.get('customer')
+        sale_product_given=self.request.get('product')
+        sale_start_date_given=self.request.get('startDateSaleGiven')
+
+        chosen_saleperson= Salesperson.query().filter(Salesperson.phone_s == sale_saleperson_given).get()
+        chosen_customer= Customer.query().filter(Customer.phone_c == sale_customer_given).get()
+        chosen_product= Products.query().filter(Products.name_of_product == sale_product_given).get()
+        # Organize that user data into a dictionary.
+        the_variable_customer_dict = {
+            "saleperson_from_form": chosen_saleperson,
+            "customer_from_form": chosen_customer,
+            "product_from_form": chosen_product,
+            "start_date_from_form":sale_start_date_given,
+        }
+        new_sale_template=Sales(product_sales=chosen_product, customer_sales=chosen_customer, salesperson_sales=chosen_saleperson, date_sale=sale_start_date_given)
+        new_sale_template.put()
+        print(new_sale_template)
+        # pass that dictionary to the Jinja2 `.render()` method
+        self.response.write(results_sale_template.render(the_variable_customer_dict))
 
 class EditProduct(webapp2.RequestHandler):
     def post(self):
@@ -281,6 +323,9 @@ app = webapp2.WSGIApplication([
     ('/displayCustomer', DisplayCustomerPage),
     ('/addCustomer', AddCustomerPage),
     ('/addCustomerConfirm', ShowCustomer),
+    ('/displaySale', DisplaySalePage),
+    ('/addSale',AddSalePage),
+    ('/addSaleConfirm', ShowSale),
     ('/editProduct', EditProduct),
     ('/editProductConfirm', EditProductConfirm),
     ('/editSaleperson', EditSaleperson),

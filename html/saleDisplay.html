@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+  </head>
+  <body>
+      {% for each_sale in sale_info %}
+        <div class="sale">
+          <h4 class="nameProduct">Saleperson: {{each_sale.salesperson_sales.first_name_s}} {{each_sale.salesperson_sales.last_name_s}}</h4>
+          <p class="manufacturerProduct">Saleperson Commission: {{each_sale.product_sales.commision_of_product}}</p>
+          <p class="manufacturerProduct">Customer: {{each_sale.customer_sales.first_name_c}} {{each_sale.customer_sales.last_name_c}}</p>
+          <p class="styleProduct">Product: {{each_sale.product_sales.name_of_product}} by {{each_sale.product_sales.manufacturer_of_product}}</p>
+          <p class="styleProduct">Product Price: {{each_sale.product_sales.purchase_price_of_product}}</p>
+          <p class="sPriceProduct">Start Date: {{each_sale.date_sale}}</p>
+        </div>
+      {% endfor %}
+      <h2><a href="/addSale">Add Sale</a></h2>
+  </body>
+</html>

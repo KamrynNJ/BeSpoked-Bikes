@@ -7,10 +7,30 @@
     <h1>Hello, world!</h1>
     <div class="addProduct" id="addProduct">
         <form  action="/addSaleConfirm" method="post" class="formDiv">
-          <select name="cars" id="cars">
-            <option value="volvo">Volvo</option>
-            
+          <label for="salesperson">Choose a saleperson:</label>
+          <select name="salesperson" id="salesperson">
+            {% for each_saleperson in saleperson_info %}
+              <option value="{{each_saleperson.phone_s}}">{{each_saleperson.first_name_s}} {{each_saleperson.last_name_s}}</option>
+            {% endfor %}
           </select>
+
+          <label for="customer">Choose a customer:</label>
+          <select name="customer" id="customer">
+            {% for each_customer in customer_info %}
+              <option value="{{each_customer.phone_c}}">{{each_customer.first_name_c}} {{each_customer.last_name_c}}</option>
+            {% endfor %}
+          </select>
+
+          <label for="product">Choose a product:</label>
+          <select name="product" id="product">
+            {% for each_product in product_info %}
+              <option value="{{each_product.name_of_product}}">{{each_product.name_of_product}} by {{each_product.manufacturer_of_product}}</option>
+            {% endfor %}
+          </select>
+          <label for="start_date_of_sale" id="start_date_sale"> Start Date:
+            </label><br>
+            <input type="text" id="startDateSaleGiven" name="startDateSaleGiven"><br>
+          <input type="submit" id="submitAddForm" value="Add" id="addbutton">
       </form>
     </div>
   </body>
