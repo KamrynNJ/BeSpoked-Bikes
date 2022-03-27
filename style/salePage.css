@@ -10,6 +10,9 @@
 .sales{
   font-size: 30px;
 }
+.header_text{
+  font-size: 22px;
+}
 #bikePic{
   width: 100px;
   height: 80px;
@@ -21,6 +24,9 @@
 }
 #editButton{
   width: 100%;
+}
+#sale_page_title{
+  text-align: center;
 }
 table, th, td {
   border: 1px solid black;

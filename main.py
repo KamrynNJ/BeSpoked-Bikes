@@ -252,15 +252,6 @@ class ShowSale(webapp2.RequestHandler):
         new_sale_template=Sales(product_sales=chosen_product, customer_sales=chosen_customer, salesperson_sales=chosen_saleperson, date_sale=sale_date_conversion,commission_amount=commission_made_str)
         new_sale_template.put()
 
-        # commission_saleperson=CommissionTotals.query().filter(CommissionTotals.commission_saleperson.phone_s==chosen_saleperson.phone_s).get()
-        # if commission_saleperson:
-        #     commission_saleperson_total=commission_saleperson.total_sale_amount+float(chosen_product.purchase_price_of_product)
-        #     commission_saleperson_total_commission=commission_saleperson.total_commission_amount+(float(chosen_product.purchase_price_of_product)*float(chosen_product.commision_of_product))
-        # else:
-        #     commission_saleperson_total=float(chosen_product.purchase_price_of_product)
-        #     commission_saleperson_total_commission=float(chosen_product.purchase_price_of_product)*float(chosen_product.commision_of_product)
-        #     new_commission_totals=CommissionTotals(commission_saleperson=chosen_saleperson,total_sale_amount=commission_saleperson_total,total_commission_amount=commission_saleperson_total_commission)
-        #     new_commission_totals.put()
         # pass that dictionary to the Jinja2 `.render()` method
         self.response.write(results_sale_template.render(the_variable_customer_dict))
 

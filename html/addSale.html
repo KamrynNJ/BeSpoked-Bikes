@@ -1,10 +1,22 @@
 <html>
   <head>
-    <title>Hello, world!</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>New Sale</title>
+    <link rel="stylesheet" type="text/css" href="style/salePage.css">
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <div class="header">
+      <a href="/" class="header_links">
+        <div id="header_logo">
+          <img id="bikePic" src="style/bikePic.jpeg" alt="bike logo">
+          <h2>BeSpoked Bikes</h2>
+        </div>
+      </a>
+      <p class="header_text"><a href="/displaySale" class="header_links">Sales</a><p>
+      <p class="header_text"><a href="/displaySalesperson" class="header_links">Salespeople</a><p>
+      <p class="header_text"><a href="/displayProduct" class="header_links">Products</a><p>
+      <p class="header_text"><a href="/displayCustomer" class="header_links">Customers</a><p>
+    </div>
+    <h1 id="sale_page_title">Enter a New Sale Information</h1>
     <div class="addProduct" id="addProduct">
         <form  action="/addSaleConfirm" method="post" class="formDiv">
           <label for="salesperson">Choose a saleperson:</label>
@@ -12,21 +24,21 @@
             {% for each_saleperson in saleperson_info %}
               <option value="{{each_saleperson.phone_s}}">{{each_saleperson.first_name_s}} {{each_saleperson.last_name_s}}</option>
             {% endfor %}
-          </select>
+          </select><br>
 
           <label for="customer">Choose a customer:</label>
           <select name="customer" id="customer">
             {% for each_customer in customer_info %}
               <option value="{{each_customer.phone_c}}">{{each_customer.first_name_c}} {{each_customer.last_name_c}}</option>
             {% endfor %}
-          </select>
+          </select><br>
 
           <label for="product">Choose a product:</label>
           <select name="product" id="product">
             {% for each_product in product_info %}
               <option value="{{each_product.name_of_product}}">{{each_product.name_of_product}} by {{each_product.manufacturer_of_product}}</option>
             {% endfor %}
-          </select>
+          </select><br>
           <label for="start_date_of_sale" id="start_date_sale"> Start Date:
             </label><br>
             <input type="date" id="startDateSaleGiven" min="1900-01-01" name="startDateSaleGiven"><br>

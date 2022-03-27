@@ -1,10 +1,22 @@
 <html>
   <head>
-    <title>Hello, world!</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>New Customer</title>
+    <link rel="stylesheet" type="text/css" href="style/customerPage.css">
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <div class="header">
+      <a href="/" class="header_links">
+        <div id="header_logo">
+          <img id="bikePic" src="style/bikePic.jpeg" alt="bike logo">
+          <h2>BeSpoked Bikes</h2>
+        </div>
+      </a>
+      <p class="header_text"><a href="/displaySale" class="header_links">Sales</a><p>
+      <p class="header_text"><a href="/displaySalesperson" class="header_links">Salespeople</a><p>
+      <p class="header_text"><a href="/displayProduct" class="header_links">Products</a><p>
+      <p class="header_text"><a href="/displayCustomer" class="header_links">Customers</a><p>
+    </div>
+    <h1 id="customer_page_title">Enter a New Customer Information</h1>
     <div class="addCustomer" id="addCustomer">
         <form  action="/addCustomerConfirm" method="post" class="formDiv">
           <label for="first_name" id="first_name"> First Name:

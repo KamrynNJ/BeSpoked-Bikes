@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hello, world!</title>
+    <title>Product Page</title>
     <link rel="stylesheet" type="text/css" href="style/productPage.css">
   </head>
   <body>
@@ -11,11 +11,12 @@
           <h2>BeSpoked Bikes</h2>
         </div>
       </a>
-      <p><a href="/displaySale" class="header_links">Sales</a><p>
-      <p><a href="/displaySalesperson" class="header_links">Salespeople</a><p>
-      <p><a href="/displayProduct" class="header_links">Products</a><p>
-      <p><a href="/displayCustomer" class="header_links">Customers</a><p>
+      <p class="header_text"><a href="/displaySale" class="header_links">Sales</a><p>
+      <p class="header_text"><a href="/displaySalesperson" class="header_links">Salespeople</a><p>
+      <p class="header_text"><a href="/displayProduct" class="header_links">Products</a><p>
+      <p class="header_text"><a href="/displayCustomer" class="header_links">Customers</a><p>
     </div>
+    <h1 id="project_page_title">Product Information Page</h1>
     <div class="products">
       <table>
         <tr>
@@ -32,12 +33,12 @@
     <tr>
         <div class="product">
           <td class="nameProduct">{{each_product.name_of_product}}</td>
-          <td class="manufacturerProduct">Manufacturer: {{each_product.manufacturer_of_product}}</td>
-          <td class="styleProduct">Style: {{each_product.style_of_product}}</td>
-          <td class="pPriceProduct">Purchase Price: {{each_product.purchase_price_of_product}}</td>
-          <td class="sPriceProduct">Sale Price: {{each_product.sale_price_of_product}}</td>
-          <td class="amountProduct">Current Quantity: {{each_product.amount_on_hand_of_product}}</td>
-          <td class="commissionProduct">Commission Percent: {{each_product.commision_of_product}}</td>
+          <td class="manufacturerProduct">{{each_product.manufacturer_of_product}}</td>
+          <td class="styleProduct">{{each_product.style_of_product}}</td>
+          <td class="pPriceProduct">$ {{each_product.purchase_price_of_product}}</td>
+          <td class="sPriceProduct">$ {{each_product.sale_price_of_product}}</td>
+          <td class="amountProduct">{{each_product.amount_on_hand_of_product}}</td>
+          <td class="commissionProduct">{{each_product.commision_of_product}}</td>
           <form  action="/editProduct" method=post class=edit-movie>
             <input type=hidden id="hiddenProductValueForEdit" name="hiddenProductValueForEdit"value="{{each_product.name_of_product}}" />
             <td><input type=submit id="editButton" value="Edit"/></td>
@@ -47,6 +48,6 @@
       {% endfor %}
     </table>
     </div>
-      <h2><a href="/addProduct">Add Product</a></h2>
+      <h2><a href="/addProduct" class="header_links">Add Product</a></h2>
   </body>
 </html>
