@@ -58,13 +58,11 @@ class CommissionTotals(ndb.Model):
   total_sale_amount=ndb.FloatProperty(required=True)
   total_commission_amount=ndb.FloatProperty(required=True)
 
-# global dates_start;
-# global dates_end;
-# class Discount(ndb.Model):
-#   product_discount = ndb.StringProperty(required=True)
-#   start_discount = ndb.StringProperty(required=True)
-#   end_discount= ndb.StringProperty(required=True)
-#   percent_discount=ndb.FloatProperty(required=True)
+class Discount(ndb.Model):
+  product_discount = ndb.StringProperty(required=True)
+  start_discount = ndb.DateProperty(required=True)
+  end_discount= ndb.DateProperty(required=True)
+  percent_discount=ndb.StringProperty(required=True)
 
 class HomePage(webapp2.RequestHandler):
     def get(self):  # for a get request
