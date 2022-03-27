@@ -27,12 +27,6 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-/* .displayReport{
-  border-style: solid;
-  border-radius: 20px;
-  width: 90vw;
-  height: 100px;
-} */
 .not_report{
   display: flex;
   flex-direction: row;
@@ -111,32 +105,3 @@
   text-align: center;
   line-height: 150px;
 }
-/* .perfect{
-    padding-left:10px;
-    width:100%;
-    height:90%;
-    position: relative;
-}
-.perfect .bar{
-    float:left;
-    position:relative;
-    width:40px;
-    height:100%;
-    margin-left:5px;
-}
-.perfect .bar .slideup{
-    position:absolute;
-    bottom:0px;
-    width:40px;
-    background-color:grey;
-    border:1px;
-}
-.perfect .bar .slideup span{
-    display:block;
-    position:absolute;
-    margin:5px;
-    top:-30px;
-}
-.span{
-  color: white;
-} */
