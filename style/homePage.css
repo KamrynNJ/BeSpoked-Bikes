@@ -63,18 +63,20 @@
 }
 #sales{
   text-align: center;
-  line-height: 15vw;
+  line-height: 250px;
   border-radius: 20px;
   border-style: solid;
-  height: 19vw;
+  height: 315px;
+  width: 45vw;
   font-size: 20px;
 }
 #reports{
   text-align: center;
-  line-height: 15vw;
+  line-height: 250px;
   border-style: solid;
   border-radius: 20px;
-  height: 19vw;
+  height: 315px;
+  width: 45vw;
   font-size: 20px;
 }
 
