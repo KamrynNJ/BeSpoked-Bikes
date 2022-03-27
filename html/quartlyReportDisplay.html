@@ -20,26 +20,27 @@
         <table>
           <tr>
             <th>Saleperson</th>
-            <th>Commission Percentage</th>
-            <th>Customer</th>
             <th>Product</th>
             <th>Product Price</th>
+            <th>Commission Percentage</th>
+            <th>Commission Amount</th>
+            <th>Customer</th>
             <th>Start Date</th>
           </tr>
-      {% for each_sale in sale_info %}
+      {% for each_report in report_info %}
       <tr>
         <div class="sale">
-          <td class="nameProduct">{{each_sale.salesperson_sales.first_name_s}} {{each_sale.salesperson_sales.last_name_s}}</td>
-          <td class="manufacturerProduct">{{each_sale.product_sales.commision_of_product}} %</td>
-          <td class="manufacturerProduct">{{each_sale.customer_sales.first_name_c}} {{each_sale.customer_sales.last_name_c}}</td>
-          <td class="styleProduct">{{each_sale.product_sales.name_of_product}} by {{each_sale.product_sales.manufacturer_of_product}}</td>
-          <td class="styleProduct">$ {{each_sale.product_sales.purchase_price_of_product}}</td>
-          <td class="sPriceProduct">{{each_sale.date_sale}}</td>
+          <td class="nameProduct">{{each_report.salesperson_sales.first_name_s}} {{each_report.salesperson_sales.last_name_s}}</td>
+          <td class="styleProduct">{{each_report.product_sales.name_of_product}} by {{each_report.product_sales.manufacturer_of_product}}</td>
+          <td class="styleProduct">$ {{each_report.product_sales.purchase_price_of_product}}</td>
+          <td class="manufacturerProduct">{{each_report.product_sales.commision_of_product}} %</td>
+          <td class="manufacturerProduct">$ {{each_report.commission_amount}} </td>
+          <td class="manufacturerProduct">{{each_report.customer_sales.first_name_c}} {{each_report.customer_sales.last_name_c}}</td>
+          <td class="sPriceProduct">{{each_report.date_sale}}</td>
         </div>
       </tr>
       {% endfor %}
     </table>
     </div>
-      <h2><a href="/addSale">Add Sale</a></h2>
   </body>
 </html>

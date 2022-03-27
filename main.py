@@ -6,6 +6,8 @@ import jinja2
 import os
 from google.appengine.ext import ndb
 import time
+import datetime
+from datetime import timedelta
 
 # This initializes the jinja2 Environment.
 # This will be the same in every app that uses the jinja2 templating library.
@@ -28,8 +30,8 @@ class Salesperson(ndb.Model):
   last_name_s = ndb.StringProperty(required=True)
   address_s= ndb.StringProperty(required=True)
   phone_s=ndb.StringProperty(required=True)
-  start_date_s=ndb.StringProperty(required=True)
-  end_date_s=ndb.StringProperty(required=True)
+  start_date_s=ndb.DateProperty(required=True)
+  end_date_s=ndb.DateProperty(required=False)
   manager_s=ndb.StringProperty(required=True)
 
 class Customer(ndb.Model):
@@ -37,14 +39,27 @@ class Customer(ndb.Model):
     last_name_c = ndb.StringProperty(required=True)
     address_c= ndb.StringProperty(required=True)
     phone_c=ndb.StringProperty(required=True)
-    start_date_c=ndb.StringProperty(required=True)
+    start_date_c=ndb.DateProperty(required=True)
 
 class Sales(ndb.Model):
   product_sales = ndb.StructuredProperty(Products, repeated=False)
   salesperson_sales = ndb.StructuredProperty(Salesperson, repeated=False)
   customer_sales= ndb.StructuredProperty(Customer, repeated=False)
-  date_sale=ndb.StringProperty(required=True)
+  commission_amount=ndb.StringProperty(required=True)
+  date_sale=ndb.DateProperty(required=True)
 
+class QuarterlyReports(ndb.Model):
+  start_date_report=ndb.DateProperty(required=True)
+  end_date_report=ndb.DateProperty(required=True)
+  creation_report=ndb.DateTimeProperty(required=True)
+
+class CommissionTotals(ndb.Model):
+  commission_saleperson=ndb.StructuredProperty(Salesperson, repeated=False)
+  total_sale_amount=ndb.FloatProperty(required=True)
+  total_commission_amount=ndb.FloatProperty(required=True)
+
+# global dates_start;
+# global dates_end;
 # class Discount(ndb.Model):
 #   product_discount = ndb.StringProperty(required=True)
 #   start_discount = ndb.StringProperty(required=True)
@@ -98,8 +113,26 @@ class AddSalePage(webapp2.RequestHandler):
         customer_all=Customer.query().order(Customer.first_name_c).fetch()
         salesperson_all=Salesperson.query().order(Salesperson.first_name_s).fetch()
         self.response.write(add_Sale_template.render({'product_info': products_all,
-                                                            'customer_info': customer_all,
-                                                            'saleperson_info': salesperson_all,
+                                                      'customer_info': customer_all,
+                                                      'saleperson_info': salesperson_all,
+                                                    }))  # the response
+class AddQuarterlyReportPage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        addReport_template = the_jinja_env.get_template('html/addQuartlyReport.html')
+        self.response.write(addReport_template.render())  # the response
+
+class DisplayQuarterlyReportPage(webapp2.RequestHandler):
+    def get(self):  # for a get request
+        display_report_template = the_jinja_env.get_template('html/quartlyReportDisplay.html')
+
+        one_min_earlier=datetime.datetime.now() - timedelta(seconds=20)
+        wanted_report_entity=QuarterlyReports.query().filter(QuarterlyReports.creation_report>one_min_earlier).get()
+
+        sales_after_start=Sales.query().filter(Sales.date_sale>=wanted_report_entity.start_date_report).get()
+        sales_btw_dates=Sales.query().filter(Sales.date_sale>=wanted_report_entity.start_date_report,Sales.date_sale<=wanted_report_entity.end_date_report)
+
+        sale_filtered=sales_btw_dates
+        self.response.write(display_report_template.render({'report_info': sale_filtered,
                                                     }))  # the response
 
 class ShowProduct(webapp2.RequestHandler):
@@ -140,17 +173,26 @@ class ShowSalesperson(webapp2.RequestHandler):
         salesperson_start_date=self.request.get('StartDateGiven')
         salesperson_end_date=self.request.get('EndDateGiven')
         salesperson_manager=self.request.get('managerGiven')
+
+        str_start_date=str(salesperson_start_date)
+        saleperson_date_conversion_start=datetime.datetime.strptime(str_start_date, "%Y-%m-%d").date()
+
+        str_end_date=str(salesperson_end_date)
+        if(str_end_date==""):
+            saleperson_date_conversion_end=None
+        else:
+            saleperson_date_conversion_end=datetime.datetime.strptime(str_end_date, "%Y-%m-%d").date()
         # Organize that user data into a dictionary.
         the_variable_salesperson_dict = {
             "first_name_from_form": salesperson_first_name,
             "last_name_from_form": salesperson_last_name,
             "address_from_form": salesperson_address,
             "phone_from_form":salesperson_phone,
-            "start_date_from_form":salesperson_start_date,
-            "end_date_from_form":salesperson_end_date,
+            "start_date_from_form":saleperson_date_conversion_start,
+            "end_date_from_form":saleperson_date_conversion_end,
             "manager_from_form":salesperson_manager,
         }
-        new_salesperson_template=Salesperson(first_name_s=salesperson_first_name, last_name_s=salesperson_last_name, address_s=salesperson_address, phone_s=salesperson_phone, start_date_s=salesperson_start_date, end_date_s=salesperson_end_date, manager_s=salesperson_manager)
+        new_salesperson_template=Salesperson(first_name_s=salesperson_first_name, last_name_s=salesperson_last_name, address_s=salesperson_address, phone_s=salesperson_phone, start_date_s=saleperson_date_conversion_start, end_date_s=saleperson_date_conversion_end, manager_s=salesperson_manager)
         new_salesperson_template.put()
         print(new_salesperson_template)
         # pass that dictionary to the Jinja2 `.render()` method
@@ -165,15 +207,18 @@ class ShowCustomer(webapp2.RequestHandler):
         customer_address=self.request.get('addressGivenC')
         customer_phone=self.request.get('phoneGivenC')
         customer_start_date=self.request.get('StartDateGivenC')
+
+        str_date=str(customer_start_date)
+        customer_date_conversion=datetime.datetime.strptime(str_date, "%Y-%m-%d").date()
         # Organize that user data into a dictionary.
         the_variable_customer_dict = {
             "c_first_name_from_form": customer_first_name,
             "c_last_name_from_form": customer_last_name,
             "c_address_from_form": customer_address,
             "c_phone_from_form":customer_phone,
-            "c_start_date_from_form":customer_start_date,
+            "c_start_date_from_form":customer_date_conversion,
         }
-        new_customer_template=Customer(first_name_c=customer_first_name, last_name_c=customer_last_name, address_c=customer_address, phone_c=customer_phone, start_date_c=customer_start_date)
+        new_customer_template=Customer(first_name_c=customer_first_name, last_name_c=customer_last_name, address_c=customer_address, phone_c=customer_phone, start_date_c=customer_date_conversion)
         new_customer_template.put()
         print(new_customer_template)
         # pass that dictionary to the Jinja2 `.render()` method
@@ -188,21 +233,60 @@ class ShowSale(webapp2.RequestHandler):
         sale_product_given=self.request.get('product')
         sale_start_date_given=self.request.get('startDateSaleGiven')
 
+        sale_str_date=str(sale_start_date_given)
+        sale_date_conversion=datetime.datetime.strptime(sale_str_date, "%Y-%m-%d").date()
+
         chosen_saleperson= Salesperson.query().filter(Salesperson.phone_s == sale_saleperson_given).get()
         chosen_customer= Customer.query().filter(Customer.phone_c == sale_customer_given).get()
         chosen_product= Products.query().filter(Products.name_of_product == sale_product_given).get()
+
+        commission_made=float(chosen_product.purchase_price_of_product)*float(chosen_product.commision_of_product)
+        commission_made_str=str(commission_made)
         # Organize that user data into a dictionary.
         the_variable_customer_dict = {
             "saleperson_from_form": chosen_saleperson,
             "customer_from_form": chosen_customer,
             "product_from_form": chosen_product,
-            "start_date_from_form":sale_start_date_given,
+            "start_date_from_form":sale_date_conversion,
         }
-        new_sale_template=Sales(product_sales=chosen_product, customer_sales=chosen_customer, salesperson_sales=chosen_saleperson, date_sale=sale_start_date_given)
+        new_sale_template=Sales(product_sales=chosen_product, customer_sales=chosen_customer, salesperson_sales=chosen_saleperson, date_sale=sale_date_conversion,commission_amount=commission_made_str)
         new_sale_template.put()
-        print(new_sale_template)
+
+        # commission_saleperson=CommissionTotals.query().filter(CommissionTotals.commission_saleperson.phone_s==chosen_saleperson.phone_s).get()
+        # if commission_saleperson:
+        #     commission_saleperson_total=commission_saleperson.total_sale_amount+float(chosen_product.purchase_price_of_product)
+        #     commission_saleperson_total_commission=commission_saleperson.total_commission_amount+(float(chosen_product.purchase_price_of_product)*float(chosen_product.commision_of_product))
+        # else:
+        #     commission_saleperson_total=float(chosen_product.purchase_price_of_product)
+        #     commission_saleperson_total_commission=float(chosen_product.purchase_price_of_product)*float(chosen_product.commision_of_product)
+        #     new_commission_totals=CommissionTotals(commission_saleperson=chosen_saleperson,total_sale_amount=commission_saleperson_total,total_commission_amount=commission_saleperson_total_commission)
+        #     new_commission_totals.put()
         # pass that dictionary to the Jinja2 `.render()` method
         self.response.write(results_sale_template.render(the_variable_customer_dict))
+
+class ShowQuarterlyReport(webapp2.RequestHandler):
+    def post(self):
+        results_report_template = the_jinja_env.get_template('html/addQuarterlyReportConfirm.html')
+        # Access the user data via the form's input elements' names.
+        report_start_date = self.request.get('startDateSearchGiven')
+        report_end_date = self.request.get('endDateSearchGiven')
+
+        date_format_report_start=datetime.datetime.strptime(report_start_date, "%Y-%m-%d").date()
+        date_format_report_end=datetime.datetime.strptime(report_end_date, "%Y-%m-%d").date()
+        report_created=datetime.datetime.now()
+
+        # dates_start=date_format_report_start
+        # dates_end=date_format_report_end
+        # Organize that user data into a dictionary.
+        the_variable_salesperson_dict = {
+            "start_date_from_form":date_format_report_start,
+            "end_date_from_form":date_format_report_end,
+        }
+
+        new_report_template=QuarterlyReports(start_date_report=date_format_report_start, end_date_report=date_format_report_end, creation_report=report_created)
+        new_report_template.put()
+        # pass that dictionary to the Jinja2 `.render()` method
+        self.response.write(results_report_template.render(the_variable_salesperson_dict))
 
 class EditProduct(webapp2.RequestHandler):
     def post(self):
@@ -270,6 +354,7 @@ class EditSaleperson(webapp2.RequestHandler):
         The_saleperson_entitity_chosen_start_date=The_saleperson_entitity_chosen.start_date_s
         The_saleperson_entitity_chosen_end_date=The_saleperson_entitity_chosen.end_date_s
         The_saleperson_entitity_chosen_manager=The_saleperson_entitity_chosen.manager_s
+
         the_variables_for_edit = {
             "value_from_form_for_edit": The_saleperson_entitity_chosen,
         }
@@ -287,14 +372,27 @@ class EditSalepersonConfirm(webapp2.RequestHandler):
         end_date_editing=self.request.get('endDateEditing')
         manager_editing=self.request.get('managerEditing')
 
+        str_date=str(start_date_editing)
+        saleperson_date_conversion_start=datetime.datetime.strptime(str_date, "%Y-%m-%d").date()
+
+        str_end_date=str(end_date_editing)
+
+        if(str_end_date==""):
+            saleperson_date_conversion_end=None
+        else:
+            saleperson_date_conversion_end=datetime.datetime.strptime(str_end_date, "%Y-%m-%d").date()
+
+
         The_product_chosen= Salesperson.query().filter(Salesperson.phone_s ==name_for_it).get()
         The_product_chosen.first_name_s=first_name_editing
         The_product_chosen.last_name_s=last_name_editing
         The_product_chosen.address_s=address_editing
         The_product_chosen.phone_s=phone_editing
-        The_product_chosen.start_date_s=start_date_editing
-        The_product_chosen.end_date_s=end_date_editing
+        The_product_chosen.start_date_s=saleperson_date_conversion_start
+        The_product_chosen.end_date_s=saleperson_date_conversion_end
         The_product_chosen.manager_s=manager_editing
+
+
         The_product_chosen.put()
         print("This is the webtoon")
         print(name_for_it)
@@ -326,6 +424,9 @@ app = webapp2.WSGIApplication([
     ('/displaySale', DisplaySalePage),
     ('/addSale',AddSalePage),
     ('/addSaleConfirm', ShowSale),
+    ('/displayReport', DisplayQuarterlyReportPage),
+    ('/addquarterlyReport',AddQuarterlyReportPage),
+    ('/addReportConfirm', ShowQuarterlyReport),
     ('/editProduct', EditProduct),
     ('/editProductConfirm', EditProductConfirm),
     ('/editSaleperson', EditSaleperson),

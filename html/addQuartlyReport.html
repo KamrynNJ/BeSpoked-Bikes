@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <div class="addReport" id="addReport">
+        <form  action="/addReportConfirm" method="post" class="formDiv">
+          <label for="start_date_of_search" id="start_date_search"> Start Search Date:
+            </label><br>
+            <input type="date" id="startDateSearchGiven" min="1900-01-01" name="startDateSearchGiven"><br>
+          <label for="end_date_of_search" id="end_date_search"> End Search Date:
+            </label><br>
+            <input type="date" id="endDateSearchGiven" min="1900-01-01" name="endDateSearchGiven"><br>
+            <input type="submit" id="submitAddForm" value="Add" id="addbutton">
+      </form>
+    </div>
+  </body>
+</html>

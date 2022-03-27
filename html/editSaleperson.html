@@ -20,13 +20,13 @@
           <input type="text" id="addressGivenEdit" name="addressEditing" value="{{value_from_form_for_edit.address_s}}"><br>
         <label for="phone"> New Phone Number:
           </label><br>
-          <input type="number" id="phoneGivenEdit" name="phoneEditing" value="{{value_from_form_for_edit.phone_s}}"><br>
+          <input type="tel" id="phoneGivenEdit" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneEditing" value="{{value_from_form_for_edit.phone_s}}"><br>
         <label for="start_date"> New Start Date:
           </label><br>
-          <input type="text" id="startDateGivenEdit" name="startDateEditing" value="{{value_from_form_for_edit.start_date_s}}"><br>
+          <input type="date" id="startDateGivenEdit" name="startDateEditing" min="1900-01-01" value="{{value_from_form_for_edit.start_date_s}}"><br>
         <label for="end_date"> New End Date:
           </label><br>
-          <input type="text" id="endDateGivenEdit" name="endDateEditing" value="{{value_from_form_for_edit.end_date_s}}"><br>
+          <input type="date" id="endDateGivenEdit" name="endDateEditing" min="1900-01-01" value="{{value_from_form_for_edit.end_date_s}}"><br>
         <label for="manager"> New Manager:
           </label><br>
           <input type="text" id="managerGivenEdit" name="managerEditing" value="{{value_from_form_for_edit.manager_s}}"><br>

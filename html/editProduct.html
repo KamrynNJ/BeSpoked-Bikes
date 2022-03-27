@@ -29,7 +29,7 @@
           <input type="number" id="amountGivenEdit" name="amountEditing" value="{{value_from_form_for_edit.amount_on_hand_of_product}}"><br>
         <label for="commission"> New Commission Percentage:
           </label><br>
-          <input type="number" step="0.01" id="commissionGivenEdit" name="commissionEditing" value="{{value_from_form_for_edit.commision_of_product}}"><br>
+          <input type="number" step="0.01" id="commissionGivenEdit" name="commissionEditing" max="1" value="{{value_from_form_for_edit.commision_of_product}}"><br>
 
           <input type=hidden id="hiddenNovelDateValueForEditing" name="hiddenProductDateValueForEditing"value="{{value_from_form_for_edit.name_of_product}}" /><br>
           <input type="submit" value="Change" id="editbutton">
